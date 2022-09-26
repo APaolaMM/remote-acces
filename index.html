@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <title>Acceso Remoto</title>
+
+</head>
+
+<body>
+	<div class="video">
+	<video controls autoplay width="640" height="480">
+		<source src="Módulo 4_Remote Access.mp4" type="video/mp4" />
+	</video>
+</div>
+    <div class="preguntasportema"> 
+<fieldset>
+	<legend>Cuestionario Acceso Remoto<</legend>
+	<div id="test">
+		<div class="cuestion">1. “Evitar el uso de SMS para autenticaci&oacute;n, ya que son m&aacute;s vulnerables. Utilizar, de preferencia, medidas biom&eacute;tricas”. El enunciado anterior corresponde a la medida de seguridad denominada:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="0" value="a">&nbsp;a : Doble factor de autenticaci&oacute;n.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="b">&nbsp;b : Bloqueo de cuenta.&nbsp;</label>
+			<label>
+				<input type="radio" name="0" value="c">&nbsp;c : Listas de acceso.&nbsp;</label>
+		</div>
+		<div class="cuestion">2. “El uso de VPN m&aacute;s el escritorio remoto aumenta las capas de seguridad, ya que, si el ciberatacante consigue entrar al VPN, todav&iacute;a necesitar&aacute; el acceso al escritorio remoto”. El enunciado anterior corresponde a la medida de seguridad denominada:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="1" value="a">&nbsp;a : Contrase&nacute;as robustas.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="b">&nbsp;b : Redes privadas virtuales.&nbsp;</label>
+			<label>
+				<input type="radio" name="1" value="c">&nbsp;c : Reglas del cortafuegos.&nbsp;</label>
+		</div>
+		<div class="cuestion">3. “Restringir el acceso despu&eacute;s de cierta cantidad de intentos fallidos, disminuir&aacute; la posibilidad de ataque por fuerza bruta”. El enunciado anterior corresponde a la medida de seguridad denominada:</div>
+		<div class="respuestas">
+			<label>
+				<input type="radio" name="2" value="a">&nbsp;a : Cambiar el puerto por defecto.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="b">&nbsp;b : Bloqueo de cuenta.&nbsp;</label>
+			<label>
+				<input type="radio" name="2" value="c">&nbsp;c : Doble factor de autenticaci&oacute;n.&nbsp;</label>
+		</div>
+	</div>
+	<button id="boton">Mostrar resultado</button>
+	<div id="resultado">
+		<br>
+	</div>
+	<script>
+		const contenedor = document.getElementById("test");
+		const botonRes = document.getElementById("boton");
+		const resultadoTest = document.getElementById("resultado");
+
+		const preguntas = [
+			{
+				pregunta: "1. “Evitar el uso de SMS para autenticación, ya que son más vulnerables. Utilizar, de preferencia, medidas biométricas”. El enunciado anterior corresponde a la medida de seguridad denominada:",
+				respuestas:
+				{
+					a: "Doble factor de autenticación.",
+					b: "Bloqueo de cuenta.",
+					c: "Listas de acceso.",
+				},
+				respuestaCorrecta: "a",
+			},
+			{
+				pregunta: "2. “El uso de VPN más el escritorio remoto aumenta las capas de seguridad, ya que, si el ciberatacante consigue entrar al VPN, todavía necesitará el acceso al escritorio remoto”. El enunciado anterior corresponde a la medida de seguridad denominada:",
+				respuestas:
+				{
+					a: "Contraseñas robustas.",
+					b: "Redes privadas virtuales.",
+					c: "Reglas del cortafuegos.",
+				},
+				respuestaCorrecta: "b",
+			},
+			{
+				pregunta: "3. “Restringir el acceso después de cierta cantidad de intentos fallidos, disminuirá la posibilidad de ataque por fuerza bruta”. El enunciado anterior corresponde a la medida de seguridad denominada:",
+				respuestas:
+				{
+					a: "Cambiar el puerto por defecto.",
+					b: "Bloqueo de cuenta.",
+					c: "Doble factor de autenticación.",
+				},
+				respuestaCorrecta: "b",
+			},
+
+		];
+
+		function mostrarTest()
+		{
+			const preguntasYrespuestas = [];
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+
+				const respuestas = [];
+
+				for (letraRespuesta in preguntaActual.respuestas)
+				{
+
+					respuestas.push(
+
+						`
+        <label>
+                  <input type="radio" name="${numeroDePregunta}" value="${letraRespuesta}" />
+                  ${letraRespuesta} : ${preguntaActual.respuestas[letraRespuesta]} <br>
+              </label>` 
+					);
+                   
+				}
+
+				preguntasYrespuestas.push(
+					`
+      <div class="cuestion">${preguntaActual.pregunta}</div>
+      
+          <div class="respuestas"> ${respuestas.join("")} </div>
+          `
+				);
+			});
+
+			contenedor.innerHTML = preguntasYrespuestas.join("");
+		}
+
+		mostrarTest();
+
+		function mostrarResultado()
+		{
+			const respuestas = contenedor.querySelectorAll(".respuestas");
+			let respuestasCorrectas = 0;
+
+			preguntas.forEach((preguntaActual, numeroDePregunta) =>
+			{
+				const todasLasRespuestas = respuestas[numeroDePregunta];
+				const checkboxRespuestas = `input[name='${numeroDePregunta}']:checked`;
+				const respuestaElegida = (
+					todasLasRespuestas.querySelector(checkboxRespuestas) ||
+					{}
+				).value;
+
+				if (respuestaElegida === preguntaActual.respuestaCorrecta)
+				{
+					respuestasCorrectas++;
+
+					respuestas[numeroDePregunta].style.color = "blue";
+				}
+				else
+				{
+					respuestas[numeroDePregunta].style.color = "red";
+				}
+			});
+
+			resultadoTest.innerHTML =
+				"Usted ha acertado " +
+				respuestasCorrectas +
+				" preguntas de un total de " +
+				preguntas.length;
+		}
+
+		botonRes.addEventListener("click", mostrarResultado);
+
+	</script>
+       </div>
+
+</fieldset>
+</body>
+</html>
